@@ -32,8 +32,6 @@ export default function Home(): JSX.Element {
     },
   });
 
-  // console.log('data: ', data);
-
   const formattedData = useMemo(() => {
     const imagesData = data?.pages
       .map(page => {
@@ -43,8 +41,6 @@ export default function Home(): JSX.Element {
 
     return imagesData;
   }, [data]);
-
-  // console.log('formattedData: ', formattedData);
 
   if (isLoading) {
     return <Loading />;
@@ -60,6 +56,7 @@ export default function Home(): JSX.Element {
 
       <Box maxW={1120} px={20} mx="auto" my={20}>
         <CardList cards={formattedData} />
+
         {hasNextPage && (
           <Button
             mt="1rem"
