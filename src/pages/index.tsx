@@ -28,10 +28,7 @@ export default function Home(): JSX.Element {
     hasNextPage,
   } = useInfiniteQuery('images', fetchData, {
     getNextPageParam: lastPage => {
-      if (lastPage?.after) {
-        return lastPage.after;
-      }
-      return undefined;
+      return lastPage.after || null;
     },
   });
 
