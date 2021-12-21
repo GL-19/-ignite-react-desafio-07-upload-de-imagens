@@ -9,6 +9,16 @@ import { Loading } from '../components/Loading';
 import { Error } from '../components/Error';
 
 export default function Home(): JSX.Element {
+  async function fetchData({ pageParam = null }) {
+    const response = await api.get(`/api/images`, {
+      params: {
+        after: pageParam,
+      },
+    });
+
+    return response.data;
+  }
+
   const {
     data,
     isLoading,
@@ -16,48 +26,34 @@ export default function Home(): JSX.Element {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery(
-    'images',
-    // TODO AXIOS REQUEST WITH PARAM
-    async ({ pageParam = '' }) => {
-      const response = await api.get(`api/images?after=${pageParam}`);
-      return response.data;
+  } = useInfiniteQuery('images', fetchData, {
+    getNextPageParam: lastPage => {
+      if (lastPage?.after) {
+        return lastPage.after;
+      }
+      return undefined;
     },
-    // TODO GET AND RETURN NEXT PAGE PARAM
-    {
-      getNextPageParam: lastData => {
-        // console.log('after: ', lastData?.after);
-
-        if (lastData?.after) {
-          return lastData.after;
-        }
-        return undefined;
-      },
-    }
-  );
+  });
 
   // console.log('data: ', data);
 
   const formattedData = useMemo(() => {
-    // TODO FORMAT AND FLAT DATA ARRAY
-    const cardsData = data?.pages
+    const imagesData = data?.pages
       .map(page => {
-        return [...page.data];
+        return page.data;
       })
       .flat();
 
-    return cardsData;
+    return imagesData;
   }, [data]);
 
   // console.log('formattedData: ', formattedData);
 
-  // TODO RENDER LOADING SCREEN
   if (isLoading) {
     return <Loading />;
   }
 
-  // TODO RENDER ERROR SCREEN
-  if (isError) {
+  if (isError && !isLoading) {
     return <Error />;
   }
 
@@ -67,14 +63,15 @@ export default function Home(): JSX.Element {
 
       <Box maxW={1120} px={20} mx="auto" my={20}>
         <CardList cards={formattedData} />
-        {
-          /* TODO RENDER LOAD MORE BUTTON IF DATA HAS NEXT PAGE */
-          hasNextPage ? (
-            <Button mt="1rem" onClick={() => fetchNextPage()}>
-              Carregar mais
-            </Button>
-          ) : null
-        }
+        {hasNextPage && (
+          <Button
+            mt="1rem"
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+          >
+            {isFetchingNextPage ? 'Carregando' : 'Carregar mais'}
+          </Button>
+        )}
       </Box>
     </>
   );
