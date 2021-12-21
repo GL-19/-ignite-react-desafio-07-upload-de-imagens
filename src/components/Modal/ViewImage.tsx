@@ -26,7 +26,7 @@ export function ModalViewImage({
           <ModalBody p="0">
             <Image src={imgUrl} w="100%" maxH="600px" />
           </ModalBody>
-          <ModalFooter p="15px">
+          <ModalFooter p="1rem">
             <Link href={imgUrl} target="_blank" w="100%">
               Abrir original
             </Link>
