@@ -1,3 +1,5 @@
-# Desafio 07 - Upfi - Upload de imagens
+# Upfi - Upload de imagens
 
-### O seguinte repositório contém a resolução do desafio upload de imagens, da trilha React do Ignite. No desafio, finalizou-se a aplicação de listagem e cadastro de imagens, utilizando-se o React Query para facilitar tanto a busca quanto o cadastro de novas imagens.
+### Link: https://gl-19-images-upload-ignite.vercel.app/
+
+### Aplicação de upload de imagens desenvolvida para resolução do desafio 7 do bootcamp Ignite - Trilha React. A aplicação permite o cadastro de novas imagens e a listagem das imagens já cadastradas. Para seu desenvolvimento, utilizou-se Typescript, Next.js, ChakraUI como biblioteca de componentes, React Query, FaunaDB como banco de dados e o ImgBB para o armazento das imagens.
